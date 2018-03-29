@@ -7,7 +7,7 @@ class Api::V1::Games::ShotsController < ApiController
                      when current_game.player_2.api_key then current_game.player_1.board
                      end
 
-    turn_processor = TurnProcessor.new(current_game, params[:shot][:target], opponent_board)
+    turn_processor = TurnProcessor.new(current_game, params[:shot][:target], opponent_board, current_player)
     turn_processor.run!
     # put below in Turn Processor
     current_game.current_turn = current_game.player_1.turns - current_game.player_2.turns
@@ -19,7 +19,7 @@ class Api::V1::Games::ShotsController < ApiController
 
   private
     def require_current_turn
-      render json: current_game, message: "Invalid move. It's your opponent's turn." unless correct_player?
+      render status: 400, json: current_game, message: "Invalid move. It's your opponent's turn." unless correct_player?
     end
 
     def correct_player?
@@ -29,5 +29,4 @@ class Api::V1::Games::ShotsController < ApiController
     def players
       {current_game.player_1.api_key => "player_1", current_game.player_2.api_key => "player_2"}
     end
-
 end
