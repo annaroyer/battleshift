@@ -16,8 +16,8 @@ class ApiController < ActionController::API
 
   def current_player
     case request.headers['X-API-KEY']
-    when game.player_1 then Player.new(game.player_1_board)
-    when game.player_2 then Player.new(game.player_2_board)
+    when current_game.player_1.api_key then current_game.player_1
+    when current_game.player_2.api_key then current_game.player_2
     end
   end
 
