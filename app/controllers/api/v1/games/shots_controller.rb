@@ -9,10 +9,6 @@ class Api::V1::Games::ShotsController < ApiController
 
     turn_processor = TurnProcessor.new(current_game, params[:shot][:target], opponent_board, current_player)
     turn_processor.run!
-    # put below in Turn Processor
-    current_game.current_turn = current_game.player_1.turns - current_game.player_2.turns
-    current_game.save
-    #
 
     render json: current_game, message: turn_processor.message
   end

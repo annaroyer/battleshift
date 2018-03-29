@@ -28,7 +28,13 @@ class TurnProcessor
   def attack_opponent
     result = Shooter.fire!(board: opponent_board, target: target)
     @messages << "Your shot resulted in a #{result}."
+    switch_turns
+  end
+
+  def switch_turns
     player.turns += 1
+    game.current_turn = game.player_1.turns - game.player_2.turns
+    game.save!
   end
 
   # def ai_attack_back
