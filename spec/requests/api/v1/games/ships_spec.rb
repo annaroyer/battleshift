@@ -2,17 +2,13 @@ require 'rails_helper'
 
 describe "Api::V1::Ships" do
   context 'POST /api/v1/games/:id/ships' do
-    let(:player_1_board)   { Board.new }
-    let(:player_2_board)   { Board.new }
     let(:sm_ship) { Ship.new(2) }
     let(:player) { create(:player) }
     let(:opponent) { create(:opponent) }
     let(:game)    {
-      create(:game,
-        player_1_board: player_1_board,
-        player_2_board: player_2_board,
-        player_1: player.api_key,
-        player_2: opponent.api_key
+      Game.create(
+        player_1: Player.new(Board.new, player.api_key),
+        player_2: Player.new(Board.new, opponent.api_key)
       )
     }
     it "updates the contents of the spaces on the player board" do
@@ -30,7 +26,7 @@ describe "Api::V1::Ships" do
 
       expect(game_response[:id]).to eq(game.id)
       expect(game_response[:message]).to eq expected_messages
-      expect(game.player_1_board.board.first.first.values.first.contents.class).to eq(Ship)
+      expect(game.player_1.board.board.first.first.values.first.contents.class).to eq(Ship)
     end
 
     it "updates the contents of the spaces on the opponent board" do
@@ -48,7 +44,7 @@ describe "Api::V1::Ships" do
 
       expect(game_response[:id]).to eq(game.id)
       expect(game_response[:message]).to eq expected_messages
-      expect(game.player_2_board.board.first.first.values.first.contents.class).to eq(Ship)
+      expect(game.player_2.board.board.first.first.values.first.contents.class).to eq(Ship)
     end
   end
 end

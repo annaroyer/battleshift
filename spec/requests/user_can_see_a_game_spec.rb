@@ -3,48 +3,42 @@ require 'rails_helper'
 describe 'GET /api/v1/games/1' do
   context 'with an existing game' do
     it 'returns a game with boards' do
-      user = create(:user)
-      player_1_board = Board.new(4)
-      player_2_board = Board.new(4)
+      player_1 = create(:player)
+      player_2 = create(:opponent)
       sm_ship = Ship.new(2)
       md_ship = Ship.new(3)
+      game = Game.create(
+                          player_1: Player.new(Board.new, player_1.api_key),
+                          player_2: Player.new(Board.new, player_2.api_key)
+                        )
 
-      ShipPlacer.new(board: player_1_board,
+      ShipPlacer.new(board: game.player_1.board,
                      ship: sm_ship,
                      start_space: "A1",
                      end_space: "A2"
                     ).run
 
-      ShipPlacer.new(board: player_1_board,
+      ShipPlacer.new(board: game.player_1.board,
                      ship: md_ship,
                      start_space: "B1",
                      end_space: "D1"
                     ).run
 
-      ShipPlacer.new(board: player_2_board,
+      ShipPlacer.new(board: game.player_2.board,
                      ship: sm_ship.dup,
                      start_space: "A1",
                      end_space: "A2"
                     ).run
 
-      ShipPlacer.new(board: player_2_board,
+      ShipPlacer.new(board: game.player_2.board,
                      ship: md_ship.dup,
                      start_space: "B1",
                      end_space: "D1"
                     ).run
 
-      game_attributes = {
-                      player_1_board: player_1_board,
-                      player_2_board: player_2_board,
-                      player_1_turns: 0,
-                      player_2_turns: 0,
-                      current_turn: "player_1"
-                    }
 
-      game = Game.new(game_attributes)
-      game.save!
 
-      get "/api/v1/games/#{game.id}", :headers => {"X-API-KEY" => user.api_key}
+      get "/api/v1/games/#{game.id}", :headers => {"X-API-KEY" => player_1.api_key}
 
       actual  = JSON.parse(response.body, symbolize_names: true)
       expected = Game.last

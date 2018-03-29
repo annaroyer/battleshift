@@ -3,14 +3,14 @@ class Api::V1::Games::ShotsController < ApiController
 
   def create
     opponent_board = case request.headers['X-API-KEY']
-                     when current_game.player_1 then current_game.player_2_board
-                     when current_game.player_2 then current_game.player_1_board
+                     when current_game.player_1.api_key then current_game.player_2.board
+                     when current_game.player_2.api_key then current_game.player_1.board
                      end
 
     turn_processor = TurnProcessor.new(current_game, params[:shot][:target], opponent_board)
     turn_processor.run!
     # put below in Turn Processor
-    current_game.current_turn = current_game.player_1_turns - current_game.player_2_turns
+    current_game.current_turn = current_game.player_1.turns - current_game.player_2.turns
     current_game.save
     #
 
@@ -27,7 +27,7 @@ class Api::V1::Games::ShotsController < ApiController
     end
 
     def players
-      {current_game.player_1 => "player_1", current_game.player_2 => "player_2"}
+      {current_game.player_1.api_key => "player_1", current_game.player_2.api_key => "player_2"}
     end
 
 end

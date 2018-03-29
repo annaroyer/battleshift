@@ -6,16 +6,13 @@ class Api::V1::GamesController < ApiController
   end
 
   def create
-    player_1_board = Board.new
-    player_2_board = Board.new
+    player_1_api_key = request.headers['X-API-KEY']
+    player_2_api_key = User.find_by(email: params[:opponent_email]).api_key
     game_attributes = {
-      player_1_board: player_1_board,
-      player_2_board: player_2_board,
-      player_1: request.headers['X-API-KEY'],
-      player_2: User.find_by(email: params[:opponent_email]).api_key
+      player_1: Player.new(Board.new, player_1_api_key),
+      player_2: Player.new(Board.new, player_2_api_key)
     }
     game = Game.create(game_attributes)
-
     render json: game
   end
 end

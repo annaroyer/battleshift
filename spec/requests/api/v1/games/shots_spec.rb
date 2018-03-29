@@ -2,25 +2,22 @@ require 'rails_helper'
 
 describe "Api::V1::Shots" do
   context "POST /api/v1/games/:id/shots" do
-    let(:player_1_board)   { Board.new(4) }
-    let(:player_2_board)   { Board.new(4) }
     let(:sm_ship) { Ship.new(2) }
     let(:player_1) { create(:player)}
     let(:player_2) { create(:opponent)}
     let(:game)    {
-      create(:game,
-        player_1_board: player_1_board,
-        player_2_board: player_2_board,
-        player_1: player_1.api_key,
-        player_2: player_2.api_key
+      Game.create(
+        player_1: Player.new(Board.new, player_1.api_key),
+        player_2: Player.new(Board.new, player_2.api_key)
       )
     }
 
     it "updates the message and board with a hit" do
-      ShipPlacer.new(board: player_2_board,
+      ShipPlacer.new(board: game.player_2.board,
                      ship: sm_ship,
                      start_space: "A1",
                      end_space: "A2").run
+      game.save
 
       headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
       json_payload = {target: "A1"}.to_json
