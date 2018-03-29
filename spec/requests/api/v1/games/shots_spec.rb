@@ -1,5 +1,13 @@
 require 'rails_helper'
 
+def place_small_ship(player)
+  ShipPlacer.new(board: player.board,
+    ship: sm_ship,
+    start_space: "A1",
+    end_space: "A2").run
+  game.save
+end
+
 describe "Api::V1::Shots" do
   context "POST /api/v1/games/:id/shots" do
     let(:sm_ship) { Ship.new(2) }
@@ -12,12 +20,9 @@ describe "Api::V1::Shots" do
       )
     }
 
+
     it "updates the message and board with a hit" do
-      ShipPlacer.new(board: game.player_2.board,
-                     ship: sm_ship,
-                     start_space: "A1",
-                     end_space: "A2").run
-      game.save
+      place_small_ship(game.player_2)
 
       headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
       json_payload = {target: "A1"}.to_json
@@ -100,6 +105,30 @@ describe "Api::V1::Shots" do
       expected_messages = "Invalid move. It's your opponent's turn."
 
       expect(game[:message]).to eq expected_messages
+    end
+
+    it 'displays ship sunk message when a player sinks the opponent ship' do
+      place_small_ship(game.player_2)
+      place_small_ship(game.player_1)
+
+      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
+      json_payload = {target: "A1"}.to_json
+
+      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
+
+      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_2.api_key}
+      json_payload = {target: "A1"}.to_json
+
+      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
+
+      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
+      json_payload = {target: "A2"}.to_json
+
+      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
+
+      actual_game = JSON.parse(response.body, symbolize_names: true)
+
+      expect(actual_game[:message]).to eq("Your shot resulted in a Hit. Battleship sunk.")
     end
   end
 end
