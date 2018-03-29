@@ -53,7 +53,9 @@ describe "Api::V1::Shots" do
     end
 
     it "updates the message and board with a miss when player 2 shoots" do
-      allow_any_instance_of(Game).to receive(:current_turn).and_return("player_2")
+      game.current_turn = "player_2"
+      game.player_1.turns = 1
+      game.save!
 
       headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_2.api_key}
       json_payload = {target: "A1"}.to_json
@@ -90,7 +92,7 @@ describe "Api::V1::Shots" do
 
       post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
 
-      expect(response).to be_success
+      expect(response.status).to eq(400)
       game = JSON.parse(response.body, symbolize_names: true)
       expected_messages = "Invalid move. It's your opponent's turn."
 
