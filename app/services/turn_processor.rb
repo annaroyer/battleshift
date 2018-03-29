@@ -1,19 +1,22 @@
 class TurnProcessor
+  attr_reader :status
+  
   def initialize(game, target, opponent_board, current_player)
     @game   = game
     @target = target
     @messages = []
     @opponent_board = opponent_board
     @player = current_player
+    @status = 200
   end
 
   def run!
     begin
       attack_opponent
-      # ai_attack_back
       game.save!
     rescue InvalidAttack => e
       @messages << e.message
+      @status = 400
     end
   end
 
