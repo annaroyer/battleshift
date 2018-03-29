@@ -9,8 +9,8 @@ class Space
 
   def attack!
     @status = if contents && not_attacked?
-                contents.attack!
-                "Hit"
+                result = contents.attack!
+                "Hit" + result
               else
                 "Miss"
               end
@@ -21,7 +21,7 @@ class Space
   end
 
   def occupied?
-    !!@contents
+    @contents
   end
 
   def not_attacked?
