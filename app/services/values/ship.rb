@@ -16,7 +16,7 @@ class Ship
 
   def attack!
     @damage += 1
-    return '. Battleship sunk.' if is_sunk?
+    return '. Battleship sunk' if is_sunk?
     ''
   end
 
