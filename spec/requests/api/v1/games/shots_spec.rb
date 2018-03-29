@@ -78,8 +78,11 @@ describe "Api::V1::Shots" do
       json_payload = {target: "B5"}.to_json
       post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
 
-      game = JSON.parse(response.body, symbolize_names: true)
-      expect(game[:message]).to eq "Invalid coordinates."
+      json_game = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response.status).to eq(400)
+      expect(json_game[:message]).to eq "Invalid coordinates."
+      expect(json_game[:id]).to eq(game.id)
     end
 
     it "displays error message when player sends request and its not their turn" do
