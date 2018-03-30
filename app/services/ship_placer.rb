@@ -24,12 +24,8 @@ class ShipPlacer
   attr_reader :board, :ship,
     :start_space, :end_space
 
-  def spaces_occupied
-    board.board.flatten.count { |space| space.values.first.contents }
-  end
-
   def remaining_ship_size
-    5 - spaces_occupied
+    5 - board.spaces_occupied
   end
 
   def rest_of_message
