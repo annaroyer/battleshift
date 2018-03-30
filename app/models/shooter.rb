@@ -17,6 +17,10 @@ class Shooter
     new(board: board, target: target).fire!
   end
 
+  def message
+    "Battleship sunk." if space.sunk?
+  end
+
   private
     attr_reader :board, :target
 

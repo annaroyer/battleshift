@@ -3,10 +3,10 @@ class TurnProcessor
 
   def initialize(game, target, opponent_board, current_player)
     @game   = game
-    @target = target
     @messages = []
     @opponent_board = opponent_board
     @player = current_player
+    @shooter = Shooter.new(board: opponent_board, target: target)
     @status = 200
   end
 
@@ -22,11 +22,11 @@ class TurnProcessor
   end
 
   def message
-    @messages.join(" ")
+    @messages.compact.join(" ")
   end
 
   private
-    attr_reader :game, :target, :opponent_board, :player
+    attr_reader :game, :opponent_board, :player, :shooter
 
     def game_status
       if game_over?
@@ -41,12 +41,13 @@ class TurnProcessor
 
     def attack_opponent
       raise InvalidAttack.new("Invalid move.") if game_over?
-      result = Shooter.fire!(board: opponent_board, target: target)
+      result = shooter.fire!
       @messages << "Your shot resulted in a #{result}."
       switch_turns
     end
 
     def switch_turns
+      @messages << shooter.message
       player.turns += 1
       game.current_turn = game.player_1.turns - game.player_2.turns
       game.save!
