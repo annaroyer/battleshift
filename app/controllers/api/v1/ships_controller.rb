@@ -1,4 +1,4 @@
-class Api::V1::Games::ShipsController < ApiController
+class Api::V1::ShipsController < ApiController
   def create
     ship_placer = ShipPlacer.new(ship_placer_params)
     ship_placer.run
