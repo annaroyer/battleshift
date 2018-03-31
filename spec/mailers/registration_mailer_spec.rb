@@ -6,7 +6,7 @@ RSpec.describe RegistrationMailer, type: :mailer do
     let(:mail) { RegistrationMailer.activate(user) }
 
     before(:each) do
-      allow_any_instance_of(User).to receive(:set_api_key).and_return("5ThQc/y5nr34mDZWrU+FQ==")
+      allow_any_instance_of(User).to receive(:api_key).and_return("P5ThQc/y5nr34mDZWrU+FQ==")
     end
 
     it 'queues the email' do
@@ -26,5 +26,4 @@ RSpec.describe RegistrationMailer, type: :mailer do
       expect(mail.html_part.body.to_s.gsub(/[[:space:]]/, '')).to match(html_body.gsub(/[[:space:]]/, ''))
     end
   end
-
 end
