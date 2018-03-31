@@ -13,5 +13,8 @@
  *= require_tree .
  *= require_self
  */
-
- @import "bootstrap"
+ @import 'base';
+ @import 'skeleton';
+ @import 'sections/navbar';
+ @import 'sections/banner';
+ @import 'sections/footer';

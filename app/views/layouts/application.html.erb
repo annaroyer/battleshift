@@ -12,23 +12,7 @@
   </head>
 
   <body>
-    <ul class="nav">
-      <li class="nav-item">
-        <a class="app-name" href="#">APi-BattleShip</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <%= link_to image_tag("ship.png", alt: "ship", :id => 'nav-image'), '/' %>
-      </li>
-    </ul>
+    <%= render partial: 'layouts/navbar' %>
 
     <p class="flash"><%= flash.notice %></p>
 
