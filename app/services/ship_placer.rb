@@ -17,12 +17,10 @@ class ShipPlacer
     end
   end
 
-  # def message
-  #   messages.join(' ')
-  # end
-
   def message
-    "Successfully placed ship with a size of #{ship.length}. " + rest_of_message
+    messages << "Successfully placed ship with a size of #{ship.length}. You have #{ships_remaining} ship(s) to place"
+    messages << "with a size of #{remaining_ship_size}" if one_left?
+    messages.join(' ') + '.'
   end
 
   private
@@ -33,14 +31,12 @@ class ShipPlacer
     5 - board.spaces_occupied
   end
 
-  def rest_of_message
-    if remaining_ship_size == 0
-      "You have 0 ship(s) to place."
-    elsif remaining_ship_size == 5
-      "You have 2 ship(s) to place" + " with a size of #{remaining_ship_size}."
-    else
-      "You have 1 ship(s) to place" + " with a size of #{remaining_ship_size}."
-    end
+  def ships_remaining
+    remaining_ship_size / 2
+  end
+
+  def one_left?
+    ships_remaining == 1
   end
 
   def same_row?
@@ -61,7 +57,7 @@ class ShipPlacer
   def place_in_column
     column = start_space[1]
     range   = start_space[0]..end_space[0]
-    raise InvalidShipPlacement unless range.count == ship.length
+    raise InvalidShipPlacement.new("Ship size must be equal to the number of spaces you are trying to fill.") unless range.count == ship.length
     range.each { |row| place_ship(row, column) }
   end
 
