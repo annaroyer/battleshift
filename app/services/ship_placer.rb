@@ -4,6 +4,7 @@ class ShipPlacer
     @ship        = ship
     @start_space = start_space
     @end_space   = end_space
+    @messages = []
   end
 
   def run
@@ -16,13 +17,17 @@ class ShipPlacer
     end
   end
 
+  # def message
+  #   messages.join(' ')
+  # end
+
   def message
     "Successfully placed ship with a size of #{ship.length}. " + rest_of_message
   end
 
   private
   attr_reader :board, :ship,
-    :start_space, :end_space
+    :start_space, :end_space, :messages
 
   def remaining_ship_size
     5 - board.spaces_occupied
