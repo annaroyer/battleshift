@@ -13,8 +13,8 @@ class Shooter
     end
   end
 
-  def self.fire!(board:, target:)
-    new(board: board, target: target).fire!
+  def message
+    "Battleship sunk." if space.sunk?
   end
 
   private
