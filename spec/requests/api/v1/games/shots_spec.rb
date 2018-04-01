@@ -108,13 +108,10 @@ describe "Api::V1::Shots" do
     it "displays error message when player sends request and its not their turn" do
       place_small_ship(game.player_2)
 
+      allow_any_instance_of(Api::V1::Games::ShotsController).to receive(:correct_player?).and_return(false)
+
       headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
       json_payload = {target: "A1"}.to_json
-
-      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
-
-      expect(response).to be_success
-
       post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
 
       expect(response.status).to eq(400)
@@ -125,19 +122,11 @@ describe "Api::V1::Shots" do
     end
 
     it 'displays ship sunk message when a player sinks the opponent ship' do
-      place_small_ship(game.player_2)
-      place_md_ship(game.player_2)
-      place_small_ship(game.player_1)
+      allow_any_instance_of(TurnProcessor).to receive(:game_over?).and_return(false)
 
-      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
-      json_payload = {target: "A1"}.to_json
+      allow_any_instance_of(Shooter).to receive(:fire!).and_return("Hit")
 
-      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
-
-      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_2.api_key}
-      json_payload = {target: "A1"}.to_json
-
-      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
+      allow_any_instance_of(Space).to receive(:sunk?).and_return(true)
 
       headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
       json_payload = {target: "A2"}.to_json
@@ -151,48 +140,19 @@ describe "Api::V1::Shots" do
 
     it 'displays game over message when a player sinks all of opponents ships' do
       place_small_ship(game.player_2)
-      place_md_ship(game.player_2)
-      place_small_ship(game.player_1)
-      place_md_ship(game.player_1)
+
+      allow_any_instance_of(Space).to receive(:sunk?).and_return(true)
+
+      allow_any_instance_of(Api::V1::Games::ShotsController).to receive(:correct_player?).and_return(true)
+
+      allow_any_instance_of(Player).to receive(:turns).and_return(1)
 
       headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
       json_payload = {target: "A1"}.to_json
       post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
 
-      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_2.api_key}
-      json_payload = {target: "A1"}.to_json
-      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
-
       headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
       json_payload = {target: "A2"}.to_json
-      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
-
-      actual_game = JSON.parse(response.body, symbolize_names: true)
-
-      expect(actual_game[:message]).to eq("Your shot resulted in a Hit. Battleship sunk.")
-
-      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_2.api_key}
-      json_payload = {target: "A2"}.to_json
-      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
-
-      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
-      json_payload = {target: "A3"}.to_json
-      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
-
-      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_2.api_key}
-      json_payload = {target: "A3"}.to_json
-      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
-
-      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
-      json_payload = {target: "B3"}.to_json
-      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
-
-      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_2.api_key}
-      json_payload = {target: "B1"}.to_json
-      post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
-
-      headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
-      json_payload = {target: "C3"}.to_json
       post "/api/v1/games/#{game.id}/shots", params: json_payload, headers: headers
 
       actual_game = JSON.parse(response.body, symbolize_names: true)
