@@ -5,12 +5,10 @@ class User < ApplicationRecord
   validates :password, presence: true, on: :update, allow_blank: true
   validates :name, :email, presence: true, uniqueness: true
 
-  before_validation :set_api_key
-
   enum status: %w(inactive active)
 
-  private
-    def set_api_key
-      self.api_key = SecureRandom.base64
-    end
+  before_create do
+    self.api_key = SecureRandom.base64
+  end
+
 end
