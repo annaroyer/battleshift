@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
       redirect_to dashboard_path
     else
       flash[:notice] = "Incorrect credentials"
-      render :new
+      redirect_to root_path
     end
   end
 

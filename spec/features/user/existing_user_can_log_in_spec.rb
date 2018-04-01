@@ -9,10 +9,6 @@ describe "existing user visits root" do
     it "and successfully logs in to dashboard" do
       visit "/"
 
-      click_on "Sign in"
-
-      expect(current_path).to eq("/login")
-
       fill_in "name", with: "Sam"
       fill_in "password", with: "test1"
       click_on "Sign in"
@@ -22,13 +18,12 @@ describe "existing user visits root" do
     end
 
     it "stays on login page with incorrect credentials" do
-      visit "/login"
+      visit root_path
 
       fill_in "name", with: "Sam"
       fill_in "password", with: "wrong"
       click_on "Sign in"
 
-      expect(current_path).to eq("/login")
       expect(page).to have_content("Incorrect credentials")
     end
   end
