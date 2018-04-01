@@ -1,0 +1,17 @@
+$indigo: #30415D;
+body {
+  background-color: $indigo;
+}
+main {
+  padding-top: 60px;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  .section-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+}

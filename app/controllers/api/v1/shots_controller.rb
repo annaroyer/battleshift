@@ -1,4 +1,4 @@
-class Api::V1::Games::ShotsController < ApiController
+class Api::V1::ShotsController < ApiController
   before_action :require_game, :require_current_turn
 
   def create

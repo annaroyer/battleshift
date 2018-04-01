@@ -16,12 +16,13 @@ describe "As a visitor" do
       visit register_path
 
       expect(ActionMailer::Base.deliveries.size).to eq(0)
-
-      fill_in "Name", with: "Jane123"
-      fill_in "Email", with: "jane@gmail.com"
-      fill_in "Password", with: "test1"
-      fill_in "Password confirmation", with: "test1"
-      click_on "Register"
+      within('main') do
+        fill_in "Name", with: "Jane123"
+        fill_in "Email", with: "jane@gmail.com"
+        fill_in "Password", with: "test1"
+        fill_in "Password confirmation", with: "test1"
+        click_on "Register"
+      end
 
       expect(page).to have_content("Logged in as Jane123")
       expect(page).to have_content("This account has not yet been activated.  Please check your email.")
@@ -32,15 +33,17 @@ describe "As a visitor" do
     scenario "with non-matching password confirmation, am still on register path" do
       visit register_path
 
-      fill_in "Name", with: "Jane123"
-      fill_in "Email", with: "jane@gmail.com"
-      fill_in "Password", with: "test1"
-      fill_in "Password confirmation", with: "test2"
-      click_on "Register"
+      within('main') do
+        fill_in "Name", with: "Jane123"
+        fill_in "Email", with: "jane@gmail.com"
+        fill_in "Password", with: "test1"
+        fill_in "Password confirmation", with: "test2"
+        click_on "Register"
+      end
 
       expect(page).to_not have_content("Logged in as Jane123")
       expect(page).to_not have_content("This account has not yet been activated.  Please check your email.")
-      expect(page).to have_field("Name", with: "Jane123")
+      within('main') { expect(page).to have_field("Name", with: "Jane123") }
     end
   end
 end

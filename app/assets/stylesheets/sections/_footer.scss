@@ -1,0 +1,14 @@
+footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+  position: fixed;
+  bottom: 0px;
+  height: 35px;
+  background-color: $ultramarine;
+  width: 100%;
+  color: rgb(86, 105, 110);
+  .created-by {
+    font-family: 'Allerta Stencil', sans-serif;
+  }
+}

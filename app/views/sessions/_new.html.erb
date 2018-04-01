@@ -1,0 +1,10 @@
+<%= form_tag login_path, class: 'form-row' do %>
+
+<%= label_tag :name %>
+<%= text_field_tag :name %><br>
+
+<%= label_tag :password %>
+<%= password_field_tag :password %><br>
+
+<%= submit_tag "Sign in", class: 'submit' %>
+<% end %>
