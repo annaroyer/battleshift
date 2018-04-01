@@ -1,5 +1,6 @@
 <% if current_user.status == "inactive" %>
-  <h4 class="page-header">This account has not yet been activated.  Please check your email.</h4>
+  <h4 class="page-header">This account has not yet been activated.</h4>
+  <h4 class="page-header">Please check your email.</h4>
 <% else %>
   <div class: 'status-container'>
     <p class="status">Status: <%= current_user.status.capitalize %></p>

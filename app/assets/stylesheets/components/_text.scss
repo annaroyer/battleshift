@@ -1,6 +1,7 @@
 $rusty-red: #984B43;
 
-.page-header, .page-link {
+.page-header {
+  text-align: center;
   color: $rusty-red;
   font: {
     family: 'Share Tech', sans-serif;
@@ -11,4 +12,15 @@ $rusty-red: #984B43;
 .status {
   color: $rusty-red;
   font-family: 'Allerta Stencil', sans-serif;
+}
+
+.register {
+  color: rgb(86, 105, 110);
+  font: {
+    family: 'Share Tech', sans-serif;
+    size: 18pt;
+  }
+}
+.register:hover {
+  color: white;
 }
