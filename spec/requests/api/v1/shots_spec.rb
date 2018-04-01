@@ -108,7 +108,7 @@ describe "Api::V1::Shots" do
     it "displays error message when player sends request and its not their turn" do
       place_small_ship(game.player_2)
 
-      allow_any_instance_of(Api::V1::Games::ShotsController).to receive(:correct_player?).and_return(false)
+      allow_any_instance_of(Api::V1::ShotsController).to receive(:correct_player?).and_return(false)
 
       headers = { "CONTENT_TYPE" => "application/json", "X-API-KEY" => player_1.api_key}
       json_payload = {target: "A1"}.to_json
@@ -143,7 +143,7 @@ describe "Api::V1::Shots" do
 
       allow_any_instance_of(Space).to receive(:sunk?).and_return(true)
 
-      allow_any_instance_of(Api::V1::Games::ShotsController).to receive(:correct_player?).and_return(true)
+      allow_any_instance_of(Api::V1::ShotsController).to receive(:correct_player?).and_return(true)
 
       allow_any_instance_of(Player).to receive(:turns).and_return(1)
 
