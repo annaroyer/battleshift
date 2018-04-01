@@ -8,11 +8,11 @@ class Board
   end
 
   def get_row_letters
-    ("A".."Z").to_a.shift(@length)
+    ("A".."Z").to_a.shift(length)
   end
 
   def get_column_numbers
-    ("1".."26").to_a.shift(@length)
+    ("1".."26").to_a.shift(length)
   end
 
   def space_names
@@ -43,7 +43,7 @@ class Board
   end
 
   def locate_space(coordinates)
-    @board.each do |row|
+    board.each do |row|
       row.each do |space_hash|
         return space_hash[coordinates] if space_hash.keys[0] == coordinates
       end
@@ -51,12 +51,12 @@ class Board
   end
 
   def conquered?
-    @board.flatten.all? do |space|
+    board.flatten.all? do |space|
       space.values.first.contents.nil? || space.values.first.contents.is_sunk?
     end
   end
 
   def spaces_occupied
-    @board.flatten.count { |space| space.values.first.contents }
+    board.flatten.count { |space| space.values.first.contents }
   end
 end
