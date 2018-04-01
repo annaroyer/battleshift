@@ -6,31 +6,22 @@
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
-    <link href="https://fonts.googleapis.com/css?family=Allerta+Stencil" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Share+Tech" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Cedarville+Cursive" rel="stylesheet">
   </head>
 
   <body>
     <%= render partial: 'layouts/navbar' %>
 
-    <p class="flash"><%= flash.notice %></p>
-
     <main>
       <section class="section-container">
+        <p class="flash"><%= flash.notice %></p>
         <%= yield %>
       </section>
 
-      <div class="banner-container">
-        <div class="banner">
-        </div>
-      </div>
+      <%= image_tag 'commander.png', alt: 'commander', class: 'banner' %>
     </main>
 
     <footer>
-      <div class="created-by">
-        <p>Anna Royer & Andrew Jeffery</p>
-      </div>
+      <p class="created-by">Anna Royer & Andrew Jeffery</p>
     </footer>
 
   </body>

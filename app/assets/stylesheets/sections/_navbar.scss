@@ -1,21 +1,29 @@
-.navbar {
+$ultramarine: #192231;
+
+.navigation {
+  position: fixed;
   display: flex;
   justify-content: space-between;
-  background-color: rgb(30, 60, 92);
+  background-color: $ultramarine;
   height: 60px;
   width: 100%;
-  .nav-link {
-    color: rgb(174, 184, 182);
-    font-family: 'Share Tech', sans-serif;
+  padding: 0px 20px;
+  .nav {
+    display: flex;
+    align-items: center;
+    .app-name {
+      font-family: 'Allerta Stencil', sans-serif;
+      color: rgb(174, 184, 182);
+      font-size: 25px;
+    }
+    .nav-link {
+      color: rgb(174, 184, 182);
+      font-family: 'Share Tech', sans-serif;
+      padding: 10px 50px 0px 50px;
+    }
   }
 }
 
 #nav-image {
   height: 50px;
-}
-
-.app-name {
-  font-family: 'Allerta Stencil', sans-serif;
-  color: rgb(174, 184, 182);
-  font-size: 25px;
 }

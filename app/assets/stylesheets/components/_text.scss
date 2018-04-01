@@ -1,0 +1,14 @@
+$rusty-red: #984B43;
+
+.page-header, .page-link {
+  color: $rusty-red;
+  font: {
+    family: 'Share Tech', sans-serif;
+    size: 50px;
+  }
+}
+
+.status {
+  color: $rusty-red;
+  font-family: 'Allerta Stencil', sans-serif;
+}

@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
-  def show
-    @user = User.find(session[:user_id])
-  end
-
   def new
     @user = User.new
+  end
+  
+  def show
   end
 
   def create

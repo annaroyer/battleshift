@@ -1,9 +1,9 @@
-Logged in as <%= @user.name %>
-
-<% if @user.status == "inactive" %>
-  This account has not yet been activated.  Please check your email.
+<% if current_user.status == "inactive" %>
+  <h4 class="page-header">This account has not yet been activated.  Please check your email.</h4>
 <% else %>
-  Welcome <%= @user.name %>. Prepare for battle...ship.
+  <div class: 'status-container'>
+    <p class="status">Status: <%= current_user.status.capitalize %></p>
+  </div>
+  <h4 class="page-header">Welcome <%= current_user.name %>.</h4>
+  <h4 class="page-header">Prepare for battle...ship.</h4>
 <% end %>
-
-Status: <%= @user.status.capitalize %>
