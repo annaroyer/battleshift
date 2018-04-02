@@ -6,5 +6,29 @@
     <p class="status">Status: <%= current_user.status.capitalize %></p>
   </div>
   <h4 class="page-header">Welcome <%= current_user.name %>.</h4>
-  <h4 class="page-header">Prepare for battle...ship.</h4>
+  <h4 class="page-header">Prepare for battle...ship.</h4><br>
+  <div class="divider">
+    &nbsp;
+  </div>
+  <div class="container">
+    <h5 class="status">The following are a list of Api endpoints to use to make post requests to engage in battle with another registered user. You must include your api key in the header of all requests as: api_key = (api key)</h5><br>
+    <ul class="status">
+      <li>Create Game: POST /api/v1/games
+        <p>
+          Include your opponents email in params as: opponent_email = (email)
+        </p>
+      </li>
+      <li>Place Ship: POST /api/v1/games/(game id)/ships
+        <p>Specify the ship size (3 or 2) in params as: ship_size = 3.<br>
+          Specify the start space of ship as a coordinate: start_space = "A1".<br>
+          Specify the end space of ship as a coordinate: end_space = "A3".
+        </p>
+      </li>
+      <li>Fire Shot: POST /api/v1/games/(game id)/shots
+        <p>Specify the coordinate of your shot in params as: shot[target] = "A1"<br>
+          Let the battle begin!!!
+        </p>
+      </li>
+    </ul>
+  </div>
 <% end %>
