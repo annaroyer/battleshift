@@ -1,56 +1,63 @@
-# Project Title
+# BattleShift
 
-One Paragraph of project description goes here
+An API for multi-player battleship. This is a brownfield project built on top of a pre-existing battleship game for a single player and computer. Players can register for an account, and will receive an email with their API key and a link to activate their account. Once activated, they are able to send post requests using their API key to create a new game, place their ships and fire shots on the opposing player. 
+
+See the project spec here: [Battleshift project spec](http://backend.turing.io/module3/projects/battleshift)
+
+See the deployed project here: [BattleShift Game](https://lit-hollows-27475.herokuapp.com/)
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+
+*To get set up on our deployed heroku app, visit the application (link above), register for an account, check your email address for an API key and link to activate your acount, and follow the instructions in the application. This application requires postman or curl in the terminal to make post requests to the api.
+
+1. clone down this project and change into the directory
+```
+git clone https://github.com/amj133/battleshift.git
+bundle install
+```
+2. create and migrate the database
+```
+rake db:create
+rake db:migrate
+```
+3. create an active user in the database
+```
+rails c
+User.create(name: "give it a name", email: "give in an email", password: "give it a password", password_confirmation: "same password", status: 1)
+exit
+```
+4. Run rails server and visit localhost:3000 in your browser
+```
+rails s
+```
+*visit http://localhost:3000 in your browser
+*enjoy!
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+* Ruby 2.4+
+* Rails 5
 
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+To play battleship you will need to use cURL in your terminal or download the postman application from chrome.
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+To run the tests, follow the instructions in [Getting Started](#getting-started) above first.
+Then, run rspec 
 ```
-Give an example
+rspec
 ```
+Our tests include: 
+* feature tests for logging in, registering an account and visiting the user dashboard
+* mailer tests for user receiving an API key and a link to activate their account 
+* model tests of all ActiveRecord and PORO models
+* service tests of all PORO services
+* request tests of all API request endpoints
 
-### And coding style tests
+Tools and gems 
 
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ## Deployment
 
