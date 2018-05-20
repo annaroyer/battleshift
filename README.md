@@ -2,9 +2,11 @@
 
 An API for multi-player battleship. This is a brownfield project built on top of a pre-existing battleship game for a single player and computer. Players can register for an account, and will receive an email with their API key and a link to activate their account. Once activated, they are able to send post requests using their API key to create a new game, place their ships and fire shots on the opposing player.  Both players must be registered users. 
 
-See the project spec here: [Battleshift project spec](http://backend.turing.io/module3/projects/battleshift)
 
 See the deployed project here: [BattleShift Game](https://lit-hollows-27475.herokuapp.com/)
+
+
+See the project spec here: [Battleshift project spec](http://backend.turing.io/module3/projects/battleshift)
 
 ## Getting Started
 
