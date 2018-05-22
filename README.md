@@ -50,14 +50,14 @@ To run the tests, follow the instructions in [Getting Started](#getting-started)
 ```
 rspec
 ```
-#####Our tests include: 
+##### Our tests include: 
 * feature tests for logging in, registering an account and visiting the user dashboard
 * mailer tests for user receiving an API key and a link to activate their account 
 * model tests of all ActiveRecord and PORO models
 * service tests of all PORO services
 * request tests of all API request endpoints
 
-#####Tools and gems used for testing:
+##### Tools and gems used for testing:
 * [capybara](https://github.com/teamcapybara/capybara)
 * [factory_bot_rails](https://github.com/thoughtbot/factory_bot_rails)
 * [shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers)
